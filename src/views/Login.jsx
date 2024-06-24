@@ -40,7 +40,7 @@ export default function Login() {
                 />
             </form>
         </div>
-        <nav className="mt-5 bg-red-100">
+        <nav className="mt-5">
             <Link to="/auth/registro">
                 ¿No tienes cuenta? Crea una
             </Link>
