@@ -3,7 +3,7 @@ import useQuiosco from "../hooks/useQuiosco" // v280
 
 export default function Producto({producto}) {
 
-    const {handleClickModal} = useQuiosco() // v280
+    const {handleClickModal, handleSetProducto} = useQuiosco() // v280|v282
     const {nombre, imagen, precio} = producto
 
     return (
@@ -21,7 +21,10 @@ export default function Producto({producto}) {
                 <button
                     className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold"
                     type="button"
-                    onClick={ () => {handleClickModal() }} // v280
+                    onClick={ () => {
+                        handleClickModal();
+                        handleSetProducto(producto); // v282
+                    }} // v280
                 >Agregar
                 </button>
             </div>
