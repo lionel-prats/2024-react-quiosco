@@ -4,22 +4,19 @@ import { formatearDinero } from "../helpers" // v284
 
 export default function ModalProducto() {
 
-    const { producto, handleClickModal } = useQuiosco() // v283
+    const { producto, handleClickModal, handleAgregarPedido } = useQuiosco() // v283
     const { imagen, nombre, precio } = producto // v283
     const [cantidad, setCantidad] = useState(1) // v285
 
     return (
         <div className="md:flex items-center gap-10">
+            
             <div className="md:w-1/3">
                 <img 
                     src={`/img/${imagen}.jpg`} 
                     alt={`imagen ${nombre}`} 
                 />
-            
             </div>
-
-
-
 
             <div className="md:w-2/3">
                 <div className="flex justify-end">
@@ -37,13 +34,9 @@ export default function ModalProducto() {
                 <p className="mt-5 font-black text-5xl text-amber-500">
                     {formatearDinero(precio)}
                 </p>
-
-
-
-
                 <div className='flex gap-4 mt-5'>
 
-                    <button
+                    <button 
                         type='button'
                         onClick={() => {
                             if(cantidad <= 1) return
@@ -71,19 +64,20 @@ export default function ModalProducto() {
 
                 </div>
 
-
-
-
-
-
                 <button
                     className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded"
                     type="button"
+                    onClick={ () => {
+                        
+                        // agrego un producto al state pedido (v288)
+                        handleAgregarPedido({...producto, cantidad}) 
+                        
+                        handleClickModal() // cierro el modal (v288)
+                    }}
                 >Añadir al pedido
                 </button>
+
             </div>
-
-
             
         </div>
     )

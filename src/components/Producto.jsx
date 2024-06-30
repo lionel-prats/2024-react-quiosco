@@ -5,7 +5,6 @@ export default function Producto({producto}) {
 
     const {handleClickModal, handleSetProducto} = useQuiosco() // v280|v282
     const {nombre, imagen, precio} = producto
-
     return (
         <div className="border p-3 shadow bg-white">
             <img 
