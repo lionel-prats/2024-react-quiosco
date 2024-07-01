@@ -2,6 +2,9 @@ import { Outlet } from 'react-router-dom' // v259
 
 import Modal from 'react-modal' // libreria instalada (v281)
 
+import { ToastContainer/* , toast */ } from 'react-toastify'; // v291
+import 'react-toastify/dist/ReactToastify.css'; // v291
+
 import Sidebar from '../components/Sidebar'
 import Resumen from '../components/Resumen'
 import ModalProducto from '../components/ModalProducto' // v282
@@ -37,14 +40,18 @@ export default function Layout() {
 
       {/* modal on/off cuando se clickea en btn.Agregar de cualquiera de los productos renderizados */}
       {/* { modal && ( // esto APARENTEMENTE es como un if(modal){ ... } (v281 - comentado en el v282) */}
-        <Modal isOpen={modal} style={customStyles}> {/* componente de libreria react-modal */}
-          <ModalProducto />
-          {/* <button
-            onClick={ handleClickModal } // v281
-          >Cerrar</button> */}
-        </Modal> {/* componente de libreria react-modal */}
+      <Modal isOpen={modal} style={customStyles}> {/* componente de libreria react-modal */}
+        <ModalProducto />
+        {/* <button
+          onClick={ handleClickModal } // v281
+        >Cerrar</button> */}
+      </Modal> {/* componente de libreria react-modal */}
       {/* )} (v281 - comentado en el v282) */}
-
+      
+      
+      {/* aca colocamos el componente de react-toastify que va a renderizar el toast que se va a mandar a llamar de acuerdo a ciertas acciones (v291) */}
+      <ToastContainer />
+      
     </>
   )
 }

@@ -25,7 +25,7 @@ export default function ResumenProducto({producto}) {
                     type="button"
                     className="bg-sky-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
                 >
-                    <svg
+                    <svg // icono para editar el pedido de un producto del resumen
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
                         viewBox="0 0 20 20"
@@ -38,13 +38,13 @@ export default function ResumenProducto({producto}) {
                     type="button"
                     className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
                 >
-                    <svg
+                    <svg // icono para eliminar el pedido de un producto del resumen
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
                         strokeWidth={2}
+                        stroke="currentColor"
+                        className="h-5 w-5"
                     >
                         <path
                             strokeLinecap="round"

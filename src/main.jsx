@@ -6,9 +6,9 @@ import router from './router' // importacion de src\router.jsx (v258)
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <QuioscoProvider>
       <RouterProvider router={router} />
     </QuioscoProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )
