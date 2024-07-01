@@ -19,7 +19,7 @@ export default function ModalProducto() {
     // este useEffect se ejecuta cuando esta listo el componente y cuando se modifica el state pedido (agregado en el array de dependendias de este useEffect) (v289)
     useEffect(()=>{ // v289
 
-        // si el producto cliqueado ya se encuentra en el state pedido, este bloque UPDATEA el state local cantidad antes de renderizar la cantidad del producto seleccionado en el modal
+        // si el producto cliqueado ya se encuentra en el state pedido, este bloque UPDATEA el state local cantidad antes de renderizar la cantidad del producto seleccionado en el modal para mostrar la cantidad actual seleccionada por el usuario
         if( pedido.some(productoIterado => productoIterado.id === producto.id) ){
             const productoEdicion = pedido.filter( productoIterado => productoIterado.id === producto.id)[0]
             setCantidad(productoEdicion.cantidad)
@@ -40,8 +40,8 @@ export default function ModalProducto() {
 
             <div className="md:w-2/3">
                 <div className="flex justify-end">
-                    <button 
-                        onClick={ handleClickModal } // v283
+                    <button // btn "X" dentro del modal, para cerrarlo cuando esta abierto
+                        onClick={ handleClickModal } // cierro el modal (v283)
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

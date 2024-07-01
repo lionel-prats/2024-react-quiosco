@@ -1,10 +1,13 @@
 // componente creado en el v288 
 
+import useQuiosco from "../hooks/useQuiosco" // v292
+
 import { formatearDinero } from "../helpers" 
 
 export default function ResumenProducto({producto}) {
 
     const {id, nombre, precio, cantidad} = producto
+    const {handleEditarCantidad, handleEliminarProductoPedido} = useQuiosco(); // v292|293
 
     return (
         <div className="shadow space-y-1 p-4 bg-white">
@@ -24,6 +27,10 @@ export default function ResumenProducto({producto}) {
                 <button
                     type="button"
                     className="bg-sky-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+
+                    // handleEditarCantidad() por un lado, va a abrir el modal del producto actualizando el state modal, y por otro va a cargar en el state producto el producto cuyo "btn.IconoEditar" estamos cliqueando desde resumen (sidebar izquierdo) para que el modal de producto cargue toda la informacion del producto que se quiere editar (v292)
+                    onClick={ () => handleEditarCantidad(id) }
+                
                 >
                     <svg // icono para editar el pedido de un producto del resumen
                         xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +44,7 @@ export default function ResumenProducto({producto}) {
                 <button
                     type="button"
                     className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+                    onClick={ () => handleEliminarProductoPedido(id) } // v293
                 >
                     <svg // icono para eliminar el pedido de un producto del resumen
                         xmlns="http://www.w3.org/2000/svg"
