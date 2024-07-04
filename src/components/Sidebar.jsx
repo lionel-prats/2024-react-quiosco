@@ -3,7 +3,8 @@ import Categoria from "./Categoria"
 
 export default function Sidebar() {
 
-    const {categorias} = useQuiosco() // v275
+    // state con la data de categorias.js (v275)
+    const {categorias} = useQuiosco() 
 
     return (
         <aside className="md:w-72">

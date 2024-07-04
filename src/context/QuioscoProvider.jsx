@@ -4,14 +4,18 @@ import { createContext/*v273*/ , useState/*v275*/, useEffect/* v294 */ } from 'r
 // significado de "toast": en el contexto de desarrollo de software, particularmente en interfaces de usuario, "toast" se refiere a una notificación breve y transitoria que aparece y desaparece automáticamente en la pantalla.
 import { toast } from 'react-toastify' // v291
 
-import { categorias as categoriasDB } from "../data/categorias" // v275
+// import { categorias as categoriasDB } from "../data/categorias" // v275 (comentado en el v300 ya que lo reemplazamos por una consulta a la API)
+
+// import axios from 'axios' // libreria descargada para hacer peticiones a la API laravel-quiosco e importada en este archivo en el v300 (import comentado en el v302, reemplazado por el import de clienteAxios)
+
+import clienteAxios from '../config/axios' // v302 (reemplaza la importacion del v300)
 
 const QuioscoContext = createContext()
 
 const QuioscoProvider = ({children}) => {
 
-    const [categorias, setCategorias] = useState(categoriasDB) // v275
-    const [categoriaActual, setCategoriaActual] = useState(categorias[0]) // v276
+    const [categorias, setCategorias] = useState([]) // v275 (valor inicial modificado en v300)
+    const [categoriaActual, setCategoriaActual] = useState({}) // v276 (valor inicial modificado en v300)
     const [modal, setModal] = useState(false) // v280
 
     // producto seleccionado por el usuario (click en "btn.AGREGAR")
@@ -35,6 +39,23 @@ const QuioscoProvider = ({children}) => {
         const nuevoTotal = pedido.reduce( (total, productoIterado) => (productoIterado.precio * productoIterado.cantidad) + total, 0 )
         setTotal(nuevoTotal)
     }, [pedido])
+
+    // v300 - esta funcion hace una peticion al endpoint de categorias de la API y es ejecutada dentro de un useEffect debajo     
+    const obtenerCategorias = async () => {
+        try {
+            // const {data} = await axios("http://laravel-quiosco.test/api/categorias") // v300 (comentada en el v301)
+            // const {data} = await axios(`${import.meta.env.VITE_API_URL}/api/categorias`) // v301 (comentada en el v302)
+            const {data} = await clienteAxios("/api/categorias") // v302
+            setCategorias(data.data)
+            setCategoriaActual(data.data[0])
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    // v300 - colocamos el arreglo de dependencias vacio para que este useEffect solo se ejecute cuando se carga este componente (QuioscoProvider es un componente???)     
+    useEffect(()=>{ 
+        obtenerCategorias()
+    }, [])
 
     // en react hay una convencion, que es que cuando hay un click o un submit, si creamos una funcion para manejar ese evento, el nombre lo definimos con "handle" + evento + especificacion (v276)
     const handleClickCategoria = id => {
