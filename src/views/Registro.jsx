@@ -1,6 +1,7 @@
 import {createRef, useState} from 'react' // v310
 import { Link } from 'react-router-dom' // v264
 import clienteAxios from '../config/axios' // v310
+import Alerta from '../components/Alerta'; // v311
 
 export default function Registro() {
   
@@ -10,6 +11,8 @@ export default function Registro() {
     const passwordRef = createRef();
     const passwordConfirmationRef = createRef();
   
+    const [errores, setErrorres] = useState([]) // v311
+
     const handleSubmit = async e => { // v310
         e.preventDefault()
         const datos = {
@@ -19,11 +22,12 @@ export default function Registro() {
             password_confirmation: passwordConfirmationRef.current.value
         }
         try {
-            const respuesta = await clienteAxios.post("/api/registro", datos)
-            console.log(respuesta);
+            const {data} = await clienteAxios.post("/api/registro", datos)
+
+            console.log(data.token);
+        
         } catch (error) {
-            console.log(error.response.data.errors)
-            console.log(Object.values(error.response.data.errors))
+            setErrorres(Object.values(error.response.data.errors))
         }
     }
 
@@ -36,6 +40,19 @@ export default function Registro() {
                     onSubmit={handleSubmit} // v310
                     noValidate
                 >
+                    {/* forma #1 de llamar al componente Alerta (v311) */}
+                    {/* {errores ? 
+                        errores.map( (error, i) => 
+                            <Alerta 
+                                key={i}
+                                children={error} 
+                            />)
+                        : null
+                    } */}
+
+                    {/* forma #2 de llamar al componente Alerta (v311) */}
+                    {errores ? errores.map((error, i) => <Alerta key={i}>{error}</Alerta>) : null}
+                    
                     <div className="mb-4">
                         <label 
                             className="text-slate-800"
