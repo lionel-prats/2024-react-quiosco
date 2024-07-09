@@ -9,6 +9,7 @@ import Sidebar from '../components/Sidebar'
 import Resumen from '../components/Resumen'
 import ModalProducto from '../components/ModalProducto' // v282
 import useQuiosco from "../hooks/useQuiosco" // v280
+import { useAuth } from '../hooks/useAuth'; // v322
 
 const customStyles = { // v281
   content: {
@@ -25,6 +26,11 @@ const customStyles = { // v281
 Modal.setAppElement("#root")
 
 export default function Layout() {
+
+  const { user, error } = useAuth({ // v322
+    middleware: "auth", 
+    // url: "/auth/login"
+  })
 
   const { modal/* , handleClickModal */ } = useQuiosco() // v280|v281
 

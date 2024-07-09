@@ -1,7 +1,8 @@
 import {createRef, useState} from 'react' // v310
 import { Link } from 'react-router-dom' // v264
-import clienteAxios from '../config/axios' // v310
+// import clienteAxios from '../config/axios' // v310 (comentado en v324)
 import Alerta from '../components/Alerta'; // v311
+import { useAuth } from '../hooks/useAuth'; // custom hook (v324)
 
 export default function Registro() {
   
@@ -13,6 +14,8 @@ export default function Registro() {
   
     const [errores, setErrorres] = useState([]) // v311
 
+    const {registro} = useAuth({ middleware: "guest", url: "/" }) // v324
+
     const handleSubmit = async e => { // v310
         e.preventDefault()
         const datos = {
@@ -21,14 +24,9 @@ export default function Registro() {
             password: passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value
         }
-        try {
-            const {data} = await clienteAxios.post("/api/registro", datos)
 
-            console.log(data.token);
-        
-        } catch (error) {
-            setErrorres(Object.values(error.response.data.errors))
-        }
+        // intento registrar al usuario (v324)
+        registro(datos, setErrorres)   
     }
 
     return (

@@ -1,10 +1,15 @@
 import useQuiosco from "../hooks/useQuiosco" // v275
 import Categoria from "./Categoria"
+import { useAuth } from "../hooks/useAuth" // v323
 
 export default function Sidebar() {
 
     // state con la data de categorias.js (v275)
     const {categorias} = useQuiosco() 
+
+    const {logout, user} = useAuth({ // v323|v324
+        middleware: "auth"
+    })
 
     return (
         <aside className="md:w-72">
@@ -18,6 +23,9 @@ export default function Sidebar() {
                     alt="Imagen Logo"
                 />
             </div>
+            <p className="my-10 text-xl text-center"
+            >Hola: { user?.name }
+            </p>
             <div className="mt-10">
                 { 
                     categorias.map(categoria => ( 
@@ -33,6 +41,8 @@ export default function Sidebar() {
                 <button
                     className="text-center bg-red-500 w-full p-3 font-bold text-white truncate"
                     type="button"
+                    // onClick={() => logout()}
+                    onClick={logout} // v323
                 >Cancelar Orden
                 </button>
             </div>

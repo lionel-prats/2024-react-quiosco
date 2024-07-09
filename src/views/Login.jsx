@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom' // v264
 import {createRef, useState} from 'react' // v315
 
-// import clienteAxios from '../config/axios' // v315 (reemplazado en v318 por la importacion de uuseAuth)
-import { useAuth } from '../hooks/useAuth'; // v318
+// import clienteAxios from '../config/axios' // v315 (reemplazado en v318 por la importacion de useAuth)
+import { useAuth } from '../hooks/useAuth'; // custom hook (v318)
 
 import Alerta from '../components/Alerta'; // v315
 
@@ -13,13 +13,16 @@ export default function Login() {
     const passwordRef = createRef();
     const [errores, setErrorres] = useState([]) 
 
-    const {login} = useAuth({ // v319
-        // el middleware va a ser para indentificar en que parte de nuestra aplicacion estamos utilizando este hook (useAuth) vvv
+    // el custom hook useAuth recibe 2 argumentos, asi que ademas de extraer la funcion login() le pasamos esos 2 argumentos (ver que significan en useAuth.js) (v319)
+    const {login} = useAuth({ 
+        
+        // indicamos que la pagina http://localhost:5173/auth/login es una pagina de acceso a invitados (usuarios no autenticados) (v321)
         middleware: "guest", 
-        // en caso que el usuario se autentique correctamente, queremos redireccionarlo hacia la pagina principal vvv
+        
+        // indicamos a donde quiero redireccionar al usuario si se autentica correctamente (v321)
         url: "/"
+    
     })
-
 
     const handleSubmit = async e => { 
         e.preventDefault()
@@ -36,7 +39,8 @@ export default function Login() {
         //     setErrorres(Object.values(error.response.data.errors))
         // }
 
-        login(datos, setErrorres) // v319     
+        // intento autenticar al usuario (v319)
+        login(datos, setErrorres)     
 
     }
     // fin bloque
