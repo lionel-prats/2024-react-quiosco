@@ -1,13 +1,20 @@
 import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco" // v286
 import ResumenProducto from "./ResumenProducto"; // v288
+import { useAuth } from "../hooks/useAuth" // v330
 
 export default function Resumen() {
 
-  const {pedido, total} = useQuiosco(); // v286|v294
+  const {pedido, total, handleSubmitNuevaOrden} = useQuiosco(); // v286|v294|v326
+  const {logout} = useAuth({}) // v330
 
   const comprobarPedido = () => pedido.length === 0
-    
+  
+  const handleSubmit = e => { // v326
+    e.preventDefault()
+    handleSubmitNuevaOrden(logout); // v326|v330
+  }
+
   return (
     <aside className="md:w-72 h-screen overflow-y-scroll p-5">
       <h1 className="text-4xl font-black">Mi Pedido</h1>
@@ -28,7 +35,10 @@ export default function Resumen() {
       <p className="text-xl mt-10">
         Total: {formatearDinero(total)}
       </p>
-      <form className="w-full">
+      <form 
+        className="w-full"
+        onSubmit={handleSubmit} // v326
+      >
         <div className="mt-5"> 
           <input 
             className={`${comprobarPedido() ? 

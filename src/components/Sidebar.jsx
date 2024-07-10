@@ -23,8 +23,8 @@ export default function Sidebar() {
                     alt="Imagen Logo"
                 />
             </div>
-            <p className="my-10 text-xl text-center"
-            >Hola: { user?.name }
+            <p className="my-10 text-xl text-center">
+                Hola: { user?.name }
             </p>
             <div className="mt-10">
                 { 
