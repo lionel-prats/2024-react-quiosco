@@ -27,7 +27,7 @@ Modal.setAppElement("#root")
 
 export default function Layout() {
 
-  const { user, error } = useAuth({ // v322
+  useAuth({ // v322
     middleware: "auth", 
     // url: "/auth/login"
   })

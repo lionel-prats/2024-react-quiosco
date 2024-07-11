@@ -78,6 +78,12 @@ export const useAuth = ({middleware, url}) => { // v319
         if(middleware == "guest" && url && user){
             navigate(url)
         }
+        if(middleware == "guest" && user && user.admin){ // v334
+            navigate("/admin")
+        }
+        if(middleware === "admin" && user && !user.admin){ // v334
+            navigate("/")
+        }
         if(middleware == "auth" && error){ // v322
             // navigate(url)
             navigate("/auth/login")
