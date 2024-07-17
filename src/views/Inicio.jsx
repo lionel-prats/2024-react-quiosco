@@ -39,7 +39,7 @@ export default function Inicio() {
   })
   // console.log(data);
   // console.log(error);
-  if(isLoading) return "cargando"
+  if(isLoading) return "Cargando..."
   // filtro los productos segun categoriaActual seleccionada (v306)
   const productos = data.data.filter( producto => producto.categoria_id === categoriaActual.id)
   // fin bloque
