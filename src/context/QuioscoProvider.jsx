@@ -42,10 +42,15 @@ const QuioscoProvider = ({children}) => {
 
     // v300 - esta funcion hace una peticion al endpoint de categorias de la API y es ejecutada dentro de un useEffect debajo     
     const obtenerCategorias = async () => {
+        const token = localStorage.getItem("AUTH_TOKEN")
         try {
             // const {data} = await axios("http://laravel-quiosco.test/api/categorias") // v300 (comentada en el v301)
             // const {data} = await axios(`${import.meta.env.VITE_API_URL}/api/categorias`) // v301 (comentada en el v302)
-            const {data} = await clienteAxios("/api/categorias") // v302
+            const {data} = await clienteAxios("/api/categorias", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }) // v302|v341
             setCategorias(data.data)
             setCategoriaActual(data.data[0])
         } catch (error) {
@@ -155,6 +160,42 @@ const QuioscoProvider = ({children}) => {
         }
     }
 
+    // esta funcion hace una peticion a la API para updatear en 1 el campo estado de un pedido cuando se da click en "btn.COMPLETAR" en http://localhost:5173/admin (v340)
+    const handleClickCompletarPedido = async id => { 
+        const token = localStorage.getItem("AUTH_TOKEN")
+        try {
+            await clienteAxios.put(
+                `/api/pedidos/${id}`, 
+                null, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // esta funcion hace una peticion a la API para updatear en 0 el campo disponible de un pproducto cuando se da click en "btn.PRODUCTO AGOTADO" en http://localhost:5173/admin/productos (v342)
+    const handleClickProductoAgotado = async id => { 
+        const token = localStorage.getItem("AUTH_TOKEN")
+        try {
+            await clienteAxios.put(
+                `/api/productos/${id}`, 
+                null, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return(
         <QuioscoContext.Provider
             value={
@@ -172,6 +213,8 @@ const QuioscoProvider = ({children}) => {
                     handleEliminarProductoPedido, // v293
                     total, // v294
                     handleSubmitNuevaOrden, // v326
+                    handleClickCompletarPedido, // v340
+                    handleClickProductoAgotado, // v342
                 }
             }
         >{ children }</QuioscoContext.Provider>

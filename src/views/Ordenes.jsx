@@ -1,4 +1,5 @@
 import useSWR from "swr" // v335
+import useQuiosco from "../hooks/useQuiosco" // v340
 import clienteAxios from '../config/axios' // v335
 import { formatearDinero } from "../helpers" // v339 
 
@@ -15,6 +16,8 @@ export default function Ordenes() {
     refreshInterval: 1000
   })
   
+  const { handleClickCompletarPedido } = useQuiosco() // v340
+
   if(isLoading) return "Cargando..."
 
   return (
@@ -58,6 +61,7 @@ export default function Ordenes() {
             <button 
               className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer"
               type="button"
+              onClick={ () => handleClickCompletarPedido(pedido.id) }
             >Completar</button>
           </div>
         ))}

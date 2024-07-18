@@ -11,6 +11,8 @@ export default function Inicio() {
 
   const {categoriaActual} = useQuiosco() // v276
 
+  const token = localStorage.getItem("AUTH_TOKEN")  // v341
+
   // filtro los productos segun categoriaActual seleccionada (v279)
   // const productos = data.filter( producto => producto.categoria_id === categoriaActual.id)
   
@@ -32,8 +34,12 @@ export default function Inicio() {
   // fin bloque 
   */
 
-  // bloque para hacer la peticion a http://laravel-quiosco.test/api/productos usando la libreria de react swr (v306)
-  const fetcher = () => clienteAxios("/api/productos").then(data => data.data)
+  // bloque para hacer la peticion a http://laravel-quiosco.test/api/productos usando la libreria de react swr (v306|v341)
+  const fetcher = () => clienteAxios("/api/productos", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(data => data.data)
   const { data, error, isLoading } = useSWR('/api/productos', fetcher, {
     refreshInterval: 1000
   })
@@ -55,6 +61,7 @@ export default function Inicio() {
           <Producto 
             key={producto.id}
             producto={producto} 
+            botonAgregar={true} 
           />
         ))}
       </div>
